@@ -13,16 +13,15 @@
       text-align: center;
     }
 
-    /* Make the card fill device width, keep a 2:3 aspect ratio */
+    /* --- Base Styles --- */
     .card {
-      width: 100vw;          /* Full viewport width */
-      aspect-ratio: 2 / 3;   /* Maintain 2:3 ratio */
-      max-width: 100%;       /* Prevent overflow on large screens */
-      margin: 0 auto;        /* Center horizontally */
+      width: 90vw;             /* Mostly full width on mobile */
+      aspect-ratio: 2 / 3;     /* Maintain 2:3 ratio */
+      margin: 20px auto;       /* Center it */
       perspective: 1000px;
-      position: relative;    /* So we can position things if needed */
+      position: relative;
+      max-width: 600px;        /* Keep it from getting *too* big on large screens */
     }
-
     .inner {
       width: 100%;
       height: 100%;
@@ -30,7 +29,6 @@
       transform-style: preserve-3d;
       position: relative;
     }
-
     .front, .back {
       position: absolute;
       top: 0; left: 0;
@@ -41,16 +39,13 @@
       background-position: center;
       background-repeat: no-repeat;
     }
-
     .front {
       background-image: url('https://static.wixstatic.com/media/c9feeb_503c9daaff20477492c0c006aaf837cc~mv2.png');
     }
-
     .back {
       background-image: url('https://static.wixstatic.com/media/c9feeb_17fa898327d24ee4a44861160741c486~mv2.png');
       transform: rotateY(180deg);
     }
-
     .flipped {
       transform: rotateY(180deg);
     }
@@ -59,26 +54,23 @@
       background-color: #000;
       color: #fff;
       border: none;
-      padding: 10px 20px;
-      font-family: inherit;
-      font-size: 16px;
       cursor: pointer;
-      margin: 20px auto;
+      margin: 20px auto 10px;
+      padding: 10px 20px;
+      font-size: 16px; /* Default (desktop) size */
     }
-
     .flip-btn:hover {
       background-color: #333;
     }
 
     .info {
       margin: 10px auto;
-      max-width: 600px;  /* So text doesn't span super-wide on desktop */
+      max-width: 600px;  
     }
-
     .info p {
       margin: 8px 0;
+      font-size: 16px; /* Default (desktop) text size */
     }
-
     a {
       color: #0066cc;
       text-decoration: none;
@@ -86,10 +78,37 @@
     a:hover {
       text-decoration: underline;
     }
+
+    /* --- MOBILE STYLES (smaller screens) --- */
+    @media (max-width: 600px) {
+      /* Make the card fill more of the screen on small devices */
+      .card {
+        margin-top: 0;       /* Reduce top margin to maximize space */
+        margin-bottom: 0;
+        max-width: 100%;     /* Let it take nearly the full width on mobile */
+      }
+      /* Increase button size on mobile */
+      .flip-btn {
+        padding: 14px 28px;
+        font-size: 20px;
+      }
+      /* Increase text size for better readability on small screens */
+      .info p {
+        font-size: 18px;
+      }
+    }
+
+    /* --- DESKTOP STYLES (larger screens) --- */
+    @media (min-width: 900px) {
+      /* Shrink the card for bigger screens so it doesn't dominate the page */
+      .card {
+        max-width: 400px;
+      }
+    }
+
   </style>
 </head>
 <body>
-  <!-- Card Container -->
   <div class="card">
     <div class="inner" id="inviteCard">
       <div class="front"></div>
@@ -97,18 +116,16 @@
     </div>
   </div>
 
-  <!-- Flip Button -->
   <button class="flip-btn" onclick="flipCard()">Flip</button>
 
-  <!-- Extra Info -->
   <div class="info">
     <p><a href="https://www.zola.com/wedding/yoavandcharlotte">RSVP Here</a></p>
     <p>
-      For any questions, email us at
+      For any questions, email us at 
       <a href="mailto:yourEmail@example.com">yourEmail@example.com</a>
     </p>
     <p>
-      Wedding Location:
+      Wedding Location: 
       <a href="https://maps.google.com/?q=Your+Venue+Address" target="_blank">
         Your Venue Address
       </a>
