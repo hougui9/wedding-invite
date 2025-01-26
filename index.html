@@ -14,41 +14,66 @@
       text-align: center;
     }
 
+    /* If you want to keep a fixed aspect ratio, leave aspect-ratio. 
+       Otherwise, remove it and let the container auto-size based on content. */
     .card {
       width: 100vw;
-      aspect-ratio: 9 / 16; /* For tall images */
+      /* aspect-ratio: 9 / 16;  <-- Remove or adjust as needed. */
       margin: 0 auto;
       perspective: 1000px;
-      max-width: 600px; /* Limit on large screens */
-    }
-    .inner {
-      width: 100%;
-      height: 100%;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
+      max-width: 600px; /* Limits width on large screens */
+      background-color: #fff; /* Background for 'contain' letterboxing */
       position: relative;
     }
+
+    .card::before {
+      /* 
+        If you removed aspect-ratio, you might need a spacer so the 
+        container has some height before the images load. 
+        This is optional if you keep aspect-ratio.
+      */
+      content: "";
+      display: block;
+      padding-top: 150%; /* For a 2:3 ratio, use 150%. For 9:16 use ~177.78% */
+      /* Adjust or remove this if you keep aspect-ratio in CSS. */
+    }
+
+    .inner {
+      /* Fill the container's dimensions, position absolutely inside .card */
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+
     .front, .back {
       position: absolute;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
-      background-size: cover;
+      background-size: contain; /* <-- show entire image without cropping */
       background-position: center;
+      background-repeat: no-repeat;
     }
+
     .front {
       background-image: url('https://static.wixstatic.com/media/c9feeb_503c9daaff20477492c0c006aaf837cc~mv2.png');
     }
+
     .back {
       background-image: url('https://static.wixstatic.com/media/c9feeb_17fa898327d24ee4a44861160741c486~mv2.png');
       transform: rotateY(180deg);
     }
+
     .flipped {
       transform: rotateY(180deg);
     }
 
-    /* Button with rounded corners and bold font */
     .flip-btn {
       background-color: #000;
       color: #fff;
@@ -57,8 +82,8 @@
       margin: 20px auto 10px;
       padding: 10px 20px;
       font-size: 16px;
-      font-weight: 700;    /* Bold text */
-      border-radius: 8px;  /* Rounded corners */
+      font-weight: 700;  /* Bold font */
+      border-radius: 8px; /* Rounded corners */
     }
     .flip-btn:hover {
       background-color: #333;
@@ -80,6 +105,7 @@
       text-decoration: underline;
     }
 
+    /* Larger text on small screens */
     @media (max-width: 600px) {
       .flip-btn {
         font-size: 20px;
@@ -89,6 +115,8 @@
         font-size: 18px;
       }
     }
+
+    /* Make the card smaller on big desktops if desired */
     @media (min-width: 900px) {
       .card {
         max-width: 400px;
@@ -98,6 +126,7 @@
 </head>
 <body>
   <div class="card">
+    <!-- The .inner container is absolutely positioned over .card -->
     <div class="inner" id="inviteCard">
       <div class="front"></div>
       <div class="back"></div>
