@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Wedding Invite</title>
   <style>
+    /* Google Font Example (optional) */
     @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
     body {
-      font-family: 'Open Sans', sans-serif;
       margin: 0;
       padding: 0;
+      font-family: 'Open Sans', sans-serif;
+      text-align: center;
     }
+
+    /* Responsive Card Container */
     .card {
-      width: 400px;
-      height: 600px;
+      width: 90%;
+      max-width: 600px;
       margin: 20px auto;
       perspective: 1000px;
+      /* Keeps a 2:3 aspect ratio (adjust as you like) */
+      aspect-ratio: 2 / 3;
+      position: relative;
     }
+
     .inner {
       width: 100%;
       height: 100%;
@@ -24,8 +32,11 @@
       transform-style: preserve-3d;
       position: relative;
     }
-    .front, .back {
+
+    .front,
+    .back {
       position: absolute;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
@@ -33,17 +44,23 @@
       background-position: center;
       background-repeat: no-repeat;
     }
+
+    /* Replace with your actual front invite image */
     .front {
       background-image: url('https://static.wixstatic.com/media/c9feeb_503c9daaff20477492c0c006aaf837cc~mv2.png');
     }
+
+    /* Replace with your actual back invite image */
     .back {
       background-image: url('https://static.wixstatic.com/media/c9feeb_17fa898327d24ee4a44861160741c486~mv2.png');
       transform: rotateY(180deg);
     }
+
     .flipped {
       transform: rotateY(180deg);
     }
 
+    /* Flip Button Styling */
     .flip-btn {
       background-color: #000;
       color: #fff;
@@ -57,9 +74,24 @@
     .flip-btn:hover {
       background-color: #333;
     }
+
+    /* Link styling example */
+    a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Extra spacing around paragraphs */
+    .info p {
+      margin: 8px 0;
+    }
   </style>
 </head>
 <body>
+
   <div class="card">
     <div class="inner" id="inviteCard">
       <div class="front"></div>
@@ -67,10 +99,19 @@
     </div>
   </div>
 
-  <div style="text-align: center;">
-    <button class="flip-btn" onclick="flipCard()">Flip</button>
+  <button class="flip-btn" onclick="flipCard()">Flip</button>
+
+  <div class="info">
+    <p><a href="https://www.zola.com/wedding/yoavandcharlotte">RSVP Here</a></p>
     <p>
-      <a href="https://www.zola.com/wedding/yoavandcharlotte">RSVP Here</a>
+      For any questions, email us at 
+      <a href="mailto:yourEmail@example.com">yourEmail@example.com</a>
+    </p>
+    <p>
+      Wedding Location: 
+      <a href="https://maps.google.com/?q=Your+Venue+Address" target="_blank">
+        Your Venue Address
+      </a>
     </p>
   </div>
 
