@@ -2,35 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>You're invited</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Animated Letter</title>
   <style>
     body {
-      margin: 0; padding: 0;
+      margin: 0; 
+      padding: 0; 
       font-family: sans-serif;
       text-align: center;
       background: #fafafa;
     }
-
-    .letter-container {
-      margin: 80px auto 0;
-      width: 300px;
-      perspective: 1000px; /* 3D perspective for the rotation */
+    h1 {
+      margin-top: 60px;
     }
-
-    /* The letter image */
+    .letter-container {
+      margin: 40px auto 0;
+      width: 300px;                 /* Adjust as desired */
+      perspective: 1000px;         /* 3D perspective */
+    }
     .letter {
       width: 100%;
-      transform-origin: top;     /* "hinge" at the top edge */
+      transform-origin: top;       /* Hinge at the top */
       transform: rotateX(0deg);
-      transition: transform 1s;
+      transition: transform 0.5s;  /* 0.5s flip animation */
     }
-
-    /* Rotate forward 90 degrees to simulate an "opening" */
     .letter.open {
-      transform: rotateX(90deg);
+      transform: rotateX(90deg);   /* Flip forward */
     }
-
     button {
       margin-top: 20px;
       padding: 12px 24px;
@@ -48,9 +46,9 @@
 </head>
 <body>
 
-  <h1>Open the Letter</h1>
-
+  <h1>You're invited!</h1>
   <div class="letter-container">
+    <!-- Replace this PNG URL with your actual letter image -->
     <img
       id="myLetter"
       class="letter"
@@ -59,11 +57,16 @@
     />
   </div>
 
-  <button onclick="toggleOpen()">Open/Close</button>
+  <button onclick="openLetter()">Open the letter</button>
 
   <script>
-    function toggleOpen() {
-      document.getElementById('myLetter').classList.toggle('open');
+    function openLetter() {
+      // Flip the letter
+      document.getElementById('myLetter').classList.add('open');
+      // After 0.5 seconds, go to invite page
+      setTimeout(() => {
+        window.location.href = 'invite.html';
+      }, 500);
     }
   </script>
 
