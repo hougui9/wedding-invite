@@ -2,100 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wedding Invite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wedding Invite - Letter Animation</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
-    html, body {
-      margin: 0;
-      padding: 0;
+    body {
+      margin: 0; 
+      padding: 0; 
       font-family: 'Open Sans', sans-serif;
+      background: #fafafa; 
       text-align: center;
     }
 
-    /* If you want to keep a fixed aspect ratio, leave aspect-ratio. 
-       Otherwise, remove it and let the container auto-size based on content. */
-    .card {
-      width: 100vw;
-      /* aspect-ratio: 9 / 16;  <-- Remove or adjust as needed. */
-      margin: 0 auto;
+    .envelope {
+      width: 90vw;
+      max-width: 400px;
+      margin: 50px auto 20px;
       perspective: 1000px;
-      max-width: 600px; /* Limits width on large screens */
-      background-color: #fff; /* Background for 'contain' letterboxing */
       position: relative;
     }
 
-    .card::before {
-      /* 
-        If you removed aspect-ratio, you might need a spacer so the 
-        container has some height before the images load. 
-        This is optional if you keep aspect-ratio.
-      */
-      content: "";
-      display: block;
-      padding-top: 150%; /* For a 2:3 ratio, use 150%. For 9:16 use ~177.78% */
-      /* Adjust or remove this if you keep aspect-ratio in CSS. */
-    }
-
-    .inner {
-      /* Fill the container's dimensions, position absolutely inside .card */
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
-    }
-
-    .front, .back {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      background-size: contain; /* <-- show entire image without cropping */
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
+    /* Envelope front (the flap) */
     .front {
-      background-image: url('https://static.wixstatic.com/media/c9feeb_503c9daaff20477492c0c006aaf837cc~mv2.png');
+      width: 100%;
+      height: 0; /* Start folded */
+      padding-bottom: 60%; /* approximate ratio for an envelope shape */
+      background: url('https://via.placeholder.com/600x400/ccc/000?text=Front+of+Envelope') center/cover no-repeat;
+      transform-origin: top;        /* “hinge” at the top edge */
+      transform: rotateX(0deg);
+      transition: transform 1s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      position: absolute;
+      top: 0; left: 0; right: 0;
     }
 
-    .back {
-      background-image: url('https://static.wixstatic.com/media/c9feeb_17fa898327d24ee4a44861160741c486~mv2.png');
-      transform: rotateY(180deg);
+    /* Letter inside */
+    .letter-back {
+      width: 100%;
+      padding-bottom: 60%;
+      background: url('https://via.placeholder.com/600x400/eee/000?text=Inside+Invite') center/cover no-repeat;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
 
-    .flipped {
-      transform: rotateY(180deg);
+    /* When we add .open to envelope, front rotates down to reveal inside */
+    .envelope.open .front {
+      transform: rotateX(-180deg);
     }
 
-    .flip-btn {
+    /* Flip Button */
+    .open-btn {
       background-color: #000;
       color: #fff;
       border: none;
+      border-radius: 8px;
       cursor: pointer;
-      margin: 20px auto 10px;
-      padding: 10px 20px;
       font-size: 16px;
-      font-weight: 700;  /* Bold font */
-      border-radius: 8px; /* Rounded corners */
+      font-weight: 700;
+      padding: 12px 24px;
+      margin: 20px auto;
     }
-    .flip-btn:hover {
+    .open-btn:hover {
       background-color: #333;
     }
 
+    /* Extra info */
     .info {
-      margin: 10px auto;
       max-width: 600px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
     .info p {
-      margin: 8px 0;
       font-size: 16px;
+      margin: 8px 0;
     }
     a {
       color: #0066cc;
@@ -107,7 +86,7 @@
 
     /* Larger text on small screens */
     @media (max-width: 600px) {
-      .flip-btn {
+      .open-btn {
         font-size: 20px;
         padding: 14px 28px;
       }
@@ -115,30 +94,23 @@
         font-size: 18px;
       }
     }
-
-    /* Make the card smaller on big desktops if desired */
-    @media (min-width: 900px) {
-      .card {
-        max-width: 400px;
-      }
-    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <!-- The .inner container is absolutely positioned over .card -->
-    <div class="inner" id="inviteCard">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
+
+  <div class="envelope" id="invite">
+    <!-- “Inside” of the invite -->
+    <div class="letter-back"></div>
+    <!-- “Flap” (front) rotates downward on open -->
+    <div class="front"></div>
   </div>
 
-  <button class="flip-btn" onclick="flipCard()">Flip</button>
+  <button class="open-btn" onclick="openLetter()">Open</button>
 
   <div class="info">
     <p><a href="https://www.zola.com/wedding/yoavandcharlotte">RSVP Here</a></p>
     <p>
-      For any questions, email us at
+      For any questions, email us at 
       <a href="mailto:yourEmail@example.com">yourEmail@example.com</a>
     </p>
     <p>
@@ -150,8 +122,8 @@
   </div>
 
   <script>
-    function flipCard() {
-      document.getElementById("inviteCard").classList.toggle("flipped");
+    function openLetter() {
+      document.getElementById('invite').classList.toggle('open');
     }
   </script>
 </body>
