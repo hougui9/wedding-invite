@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Wedding Invite</title>
+  <title>Your Wedding Invite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
     body {
       margin: 0; 
@@ -11,14 +12,17 @@
       font-family: Arial, sans-serif;
       background: #fafafa;
     }
+    h1 {
+      margin-top: 40px;
+    }
     .card {
       width: 90vw;
       max-width: 400px;
-      aspect-ratio: 2 / 3; 
-      margin: 40px auto;
+      aspect-ratio: 2 / 3; /* Adjust if your images are taller/wider */
+      margin: 20px auto;
       perspective: 1000px;
-      position: relative;
       background: #fff;
+      position: relative;
     }
     .inner {
       width: 100%;
@@ -36,26 +40,27 @@
       background-position: center;
       background-size: contain;
     }
+    /* Replace with your real invite images */
     .front {
-      background-image: url('https://via.placeholder.com/400x600/eee/000?text=Front+Image');
+      background-image: url('https://static.wixstatic.com/media/c9feeb_503c9daaff20477492c0c006aaf837cc~mv2.png');
     }
     .back {
-      background-image: url('https://via.placeholder.com/400x600/ddd/000?text=Back+Image');
+      background-image: url('https://static.wixstatic.com/media/c9feeb_17fa898327d24ee4a44861160741c486~mv2.png');
       transform: rotateY(180deg);
     }
     .flipped {
       transform: rotateY(180deg);
     }
     button {
+      margin-top: 20px;
+      padding: 12px 24px;
       font-size: 16px;
       font-weight: bold;
-      padding: 12px 24px;
-      background: #000;
-      color: #fff;
       border: none;
       border-radius: 8px;
+      background: #000;
+      color: #fff;
       cursor: pointer;
-      margin-top: 20px;
     }
     button:hover {
       background: #333;
@@ -90,11 +95,7 @@
   <button onclick="flipCard()">Flip Card</button>
 
   <div class="info">
-    <p>
-      <a href="https://www.zola.com/wedding/yoavandcharlotte" target="_blank">
-        RSVP Here
-      </a>
-    </p>
+    <p><a href="https://www.zola.com/wedding/yoavandcharlotte" target="_blank">RSVP Here</a></p>
     <p>Email: <a href="mailto:yourEmail@example.com">yourEmail@example.com</a></p>
     <p>
       Location:
