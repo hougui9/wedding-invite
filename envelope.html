@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wedding Envelope</title>
+  <style>
+    body {
+      margin: 0; 
+      padding: 0; 
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+    }
+    .envelope {
+      width: 90vw;
+      max-width: 500px;
+      aspect-ratio: 3 / 2; 
+      margin: 80px auto 20px;
+      background: 
+        url('https://via.placeholder.com/600x400/ccc/000?text=Envelope+Front')
+        center/contain no-repeat;
+    }
+    button {
+      font-size: 18px;
+      font-weight: bold;
+      padding: 12px 24px;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>You're Invited!</h1>
+  <div class="envelope"></div>
+
+  <!-- Link to invite.html (same folder) -->
+  <p>
+    <button onclick="window.location.href='invite.html'">
+      Open Letter
+    </button>
+  </p>
+
+</body>
+</html>
