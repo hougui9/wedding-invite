@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Wedding Invite - 2 Steps (Hidden Letter)</title>
+  <title>Wedding Invite - Single Page</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
@@ -14,70 +14,56 @@
       font-family: 'Open Sans', sans-serif;
       text-align: center;
     }
+    button {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 12px 24px;
+      margin: 20px auto 10px;
+    }
+    button:hover {
+      background-color: #333;
+    }
+    .envelope-section, .invite-section {
+      display: none; /* Hide both by default; we'll show the envelope via JS or inline style */
+      margin: 0 auto;
+      max-width: 600px;
+    }
 
-    /* 
-      1) Envelope Container
-         - aspect-ratio: pick a shape for the envelope
-         - overflow: hidden ensures the letter is invisible behind the flap 
-    */
+    /* Envelope Section */
+    .envelope-section {
+      display: block; /* Envelope is visible on load */
+      margin-top: 50px;
+    }
     .envelope {
       width: 90vw;
       max-width: 500px;
-      aspect-ratio: 3 / 2; /* Adjust ratio as you like */
-      margin: 80px auto 20px;
+      aspect-ratio: 3 / 2;
+      margin: 50px auto 0;
+      background: url('https://via.placeholder.com/600x400/ccc/000?text=Envelope+Front')
+                  center/contain no-repeat;
+    }
+
+    /* Invite Section */
+    .card-container {
+      width: 90vw;
+      max-width: 400px;
+      aspect-ratio: 2 / 3; /* Adjust if your invite images are taller/wider */
+      margin: 20px auto;
       perspective: 1000px;
       position: relative;
-      overflow: hidden;
-    }
-
-    /* The “letter” you see once the flap is open */
-    .letter-back {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: url('https://via.placeholder.com/600x400/eee/000?text=Inside+Letter')
-                  center/contain no-repeat;
-      backface-visibility: hidden;
-      z-index: 1; /* Under the flap */
-    }
-
-    /* Envelope flap on top, rotates down on open */
-    .envelope-front {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: url('https://via.placeholder.com/600x400/ccc/000?text=Envelope+Flap')
-                  center/contain no-repeat;
-      backface-visibility: hidden;
-      z-index: 2;       /* Always on top until we rotate it away */
-      transform-origin: top; 
-      transform: rotateX(0deg); 
-      transition: transform 1s;
-    }
-
-    /* Rotate flap away to reveal the letter */
-    .envelope.open .envelope-front {
-      transform: rotateX(-180deg);
-    }
-
-    /*
-      2) The Flipping Card (inside the letter)
-         We'll position it absolutely so it appears “on” the letter.
-    */
-    .card-area {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      /* Slight padding if you want space between letter edges and card */
-      padding: 10px;
+      background: #fff;
     }
     .inner {
-      width: 90%;
-      max-width: 300px;
-      aspect-ratio: 2 / 3; /* or 9/16 if your images are tall */
-      position: relative;
+      width: 100%;
+      height: 100%;
       transition: transform 0.8s;
       transform-style: preserve-3d;
+      position: relative;
     }
     .front, .back {
       position: absolute;
@@ -88,7 +74,7 @@
       background-position: center;
       background-size: contain; 
     }
-    /* Replace with actual front/back invites */
+    /* Replace with your real images */
     .front {
       background-image: url('https://static.wixstatic.com/media/c9feeb_503c9daaff20477492c0c006aaf837cc~mv2.png');
     }
@@ -100,27 +86,9 @@
       transform: rotateY(180deg);
     }
 
-    /* Buttons */
-    button {
-      background-color: #000;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 700;
-      border-radius: 8px;
-      padding: 12px 24px;
-      margin: 20px auto 10px;
-    }
-    button:hover {
-      background-color: #333;
-    }
-
-    /* Info text */
     .info {
-      margin-top: 10px;
-      max-width: 300px;
-      margin: 0 auto;
+      margin: 20px auto;
+      max-width: 400px;
     }
     .info p {
       margin: 8px 0;
@@ -147,45 +115,47 @@
   </style>
 </head>
 <body>
-  <!-- Envelope container -->
-  <div class="envelope" id="envelope">
-    <!-- The letter (behind the flap), with the flipping card on it -->
-    <div class="letter-back">
-      <div class="card-area">
-        <!-- Flipping invite card -->
-        <div class="inner" id="inviteCard">
-          <div class="front"></div>
-          <div class="back"></div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Envelope flap on top -->
-    <div class="envelope-front"></div>
+  <!-- Envelope Section (Page 1) -->
+  <div class="envelope-section" id="envelopeSection">
+    <h1>You're Invited!</h1>
+    <div class="envelope"></div>
+    <button onclick="openLetter()">Open Letter</button>
   </div>
 
-  <!-- Button to open the flap -->
-  <button onclick="openLetter()">Open Letter</button>
+  <!-- Invite Section (Page 2) -->
+  <div class="invite-section" id="inviteSection">
+    <h1>Your Wedding Invite</h1>
+    <div class="card-container">
+      <div class="inner" id="inviteCard">
+        <div class="front"></div>
+        <div class="back"></div>
+      </div>
+    </div>
+    <button onclick="flipCard()">Flip</button>
 
-  <!-- Button to flip the invite (shows front/back) -->
-  <button onclick="flipCard()">Flip Invite</button>
-
-  <!-- RSVP & Info -->
-  <div class="info">
-    <p><a href="https://www.zola.com/wedding/yoavandcharlotte">RSVP Here</a></p>
-    <p>Email: <a href="mailto:yourEmail@example.com">yourEmail@example.com</a></p>
-    <p>
-      Location:
-      <a href="https://maps.google.com/?q=Your+Venue+Address" target="_blank">
-        Your Venue Address
-      </a>
-    </p>
+    <div class="info">
+      <p><a href="https://www.zola.com/wedding/yoavandcharlotte">RSVP Here</a></p>
+      <p>Email: <a href="mailto:yourEmail@example.com">yourEmail@example.com</a></p>
+      <p>
+        Location:
+        <a href="https://maps.google.com/?q=Your+Venue+Address" target="_blank">
+          Your Venue Address
+        </a>
+      </p>
+    </div>
   </div>
 
   <script>
+    // Initially show Envelope, hide Invite
+    const envelope = document.getElementById('envelopeSection');
+    const invite = document.getElementById('inviteSection');
+
     function openLetter() {
-      document.getElementById('envelope').classList.toggle('open');
+      envelope.style.display = 'none';
+      invite.style.display = 'block';
     }
+
     function flipCard() {
       document.getElementById('inviteCard').classList.toggle('flipped');
     }
