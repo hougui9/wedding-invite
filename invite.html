@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wedding Invite</title>
+  <style>
+    body {
+      margin: 0; 
+      padding: 0;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+    }
+    .card {
+      width: 90vw;
+      max-width: 400px;
+      aspect-ratio: 2 / 3; 
+      margin: 40px auto;
+      perspective: 1000px;
+      position: relative;
+      background: #fff;
+    }
+    .inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+    .front, .back {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      backface-visibility: hidden;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+    .front {
+      background-image: url('https://via.placeholder.com/400x600/eee/000?text=Front+Image');
+    }
+    .back {
+      background-image: url('https://via.placeholder.com/400x600/ddd/000?text=Back+Image');
+      transform: rotateY(180deg);
+    }
+    .flipped {
+      transform: rotateY(180deg);
+    }
+    button {
+      font-size: 16px;
+      font-weight: bold;
+      padding: 12px 24px;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background: #333;
+    }
+    .info {
+      margin: 20px auto;
+      max-width: 300px;
+    }
+    .info p {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Your Wedding Invite</h1>
+  <div class="card">
+    <div class="inner" id="inviteCard">
+      <div class="front"></div>
+      <div class="back"></div>
+    </div>
+  </div>
+
+  <button onclick="flipCard()">Flip Card</button>
+
+  <div class="info">
+    <p>
+      <a href="https://www.zola.com/wedding/yoavandcharlotte" target="_blank">
+        RSVP Here
+      </a>
+    </p>
+    <p>Email: <a href="mailto:yourEmail@example.com">yourEmail@example.com</a></p>
+    <p>
+      Location:
+      <a href="https://maps.google.com/?q=Your+Venue+Address" target="_blank">
+        Your Venue Address
+      </a>
+    </p>
+  </div>
+
+  <script>
+    function flipCard() {
+      document.getElementById('inviteCard').classList.toggle('flipped');
+    }
+  </script>
+</body>
+</html>
