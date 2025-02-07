@@ -2,32 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Wedding Envelope</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Animated Letter</title>
   <style>
     body {
-      margin: 0; 
-      padding: 0; 
+      margin: 0; padding: 0;
+      font-family: sans-serif;
       text-align: center;
-      font-family: Arial, sans-serif;
       background: #fafafa;
     }
-    .envelope {
-      width: 90vw;
-      max-width: 500px;
-      aspect-ratio: 3 / 2; 
-      margin: 80px auto 20px;
-      background: 
-        url('https://via.placeholder.com/600x400/ccc/000?text=Envelope+Front')
-        center/contain no-repeat;
+
+    .letter-container {
+      margin: 80px auto 0;
+      width: 300px;
+      perspective: 1000px; /* 3D perspective for the rotation */
     }
+
+    /* The letter image */
+    .letter {
+      width: 100%;
+      transform-origin: top;     /* "hinge" at the top edge */
+      transform: rotateX(0deg);
+      transition: transform 1s;
+    }
+
+    /* Rotate forward 90 degrees to simulate an "opening" */
+    .letter.open {
+      transform: rotateX(90deg);
+    }
+
     button {
-      font-size: 18px;
-      font-weight: bold;
+      margin-top: 20px;
       padding: 12px 24px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
       background: #000;
       color: #fff;
-      border: none;
-      border-radius: 8px;
       cursor: pointer;
     }
     button:hover {
@@ -37,15 +48,24 @@
 </head>
 <body>
 
-  <h1>You're Invited!</h1>
-  <div class="envelope"></div>
+  <h1>Open the Letter</h1>
 
-  <!-- Link to invite.html (same folder) -->
-  <p>
-    <button onclick="window.location.href='invite.html'">
-      Open Letter
-    </button>
-  </p>
+  <div class="letter-container">
+    <img
+      id="myLetter"
+      class="letter"
+      src="https://png.pngtree.com/png-clipart/20220502/original/pngtree-love-letter-cartoon-png-image_7649405.png"
+      alt="Letter"
+    />
+  </div>
+
+  <button onclick="toggleOpen()">Open/Close</button>
+
+  <script>
+    function toggleOpen() {
+      document.getElementById('myLetter').classList.toggle('open');
+    }
+  </script>
 
 </body>
 </html>
