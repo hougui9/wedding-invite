@@ -15,6 +15,7 @@
     h1 {
       margin-top: 40px;
     }
+
     .card {
       width: 90vw;
       max-width: 400px;
@@ -39,6 +40,7 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
+      cursor: zoom-in; /* Indicate it's clickable */
     }
     /* Replace with your real invite images */
     .front {
@@ -51,6 +53,7 @@
     .flipped {
       transform: rotateY(180deg);
     }
+
     button {
       margin-top: 20px;
       padding: 12px 24px;
@@ -65,6 +68,7 @@
     button:hover {
       background: #333;
     }
+
     .info {
       margin: 20px auto;
       max-width: 300px;
@@ -80,15 +84,48 @@
     a:hover {
       text-decoration: underline;
     }
+
+    /* Lightbox modal overlay */
+    .lightbox {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.8);
+      display: none; /* Hidden by default */
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    /* Large image in the modal */
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      box-shadow: 0 4px 10px rgba(255,255,255,0.3);
+    }
+    /* Click anywhere to close */
+    .lightbox:target {
+      display: flex; /* Show the overlay when targeted via anchor */
+    }
   </style>
 </head>
 <body>
 
   <h1>Your Wedding Invite</h1>
+  
+  <!-- The flipping card -->
   <div class="card">
     <div class="inner" id="inviteCard">
-      <div class="front"></div>
-      <div class="back"></div>
+      <!-- Front side: on click, open #lightbox with a query param for the front image -->
+      <div 
+        class="front" 
+        onclick="openLightbox('https://static.wixstatic.com/media/c9feeb_d3c0901d5d294dc2b854934892cf85ef~mv2.png')"
+      ></div>
+
+      <!-- Back side: open #lightbox with back image -->
+      <div 
+        class="back" 
+        onclick="openLightbox('https://static.wixstatic.com/media/c9feeb_68923cf559d74a2283bcd7c440087155~mv2.png')"
+      ></div>
     </div>
   </div>
 
@@ -105,9 +142,25 @@
     </p>
   </div>
 
+  <!-- Lightbox Overlay -->
+  <div class="lightbox" id="lightbox">
+    <!-- The big image inserted via JS -->
+    <img id="lightboxImage" src="#" alt="Invite Image">
+  </div>
+
   <script>
     function flipCard() {
       document.getElementById('inviteCard').classList.toggle('flipped');
+    }
+
+    function openLightbox(imgUrl) {
+      // Set the large image src
+      const bigImg = document.getElementById('lightboxImage');
+      bigImg.src = imgUrl;
+
+      // Programmatically navigate to the #lightbox anchor so the overlay displays
+      // (Because .lightbox:target { display: flex; })
+      window.location.hash = 'lightbox';
     }
   </script>
 </body>
