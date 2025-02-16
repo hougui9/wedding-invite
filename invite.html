@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your Wedding Invite 2.0 (Responsive Lightbox)</title>
+  <title>Your Wedding Invite (Lightbox 20% Zoom)</title>
   <!-- Allow pinch-zoom on mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <style>
@@ -17,7 +17,7 @@
       margin-top: 40px;
     }
 
-    /* ----- Card Flip Layout ----- */
+    /* ---- Flip Card Setup ---- */
     .card {
       width: 90vw;
       max-width: 400px;
@@ -56,7 +56,7 @@
       transform: rotateY(180deg);
     }
 
-    /* ----- Buttons & Info ----- */
+    /* ---- Buttons & Info ---- */
     button {
       margin-top: 20px;
       padding: 12px 24px;
@@ -87,7 +87,7 @@
       text-decoration: underline;
     }
 
-    /* ----- Modal / Lightbox Overlay ----- */
+    /* ---- Lightbox / Modal ---- */
     .lightbox {
       display: none; /* Hidden by default */
       position: fixed;
@@ -97,39 +97,37 @@
       background: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
-      padding: 0; /* No extra padding so it fills the screen */
+      padding: 0;
       box-sizing: border-box;
     }
     .lightbox.active {
-      display: flex; /* Show when active */
+      display: flex; /* Show overlay */
     }
-
-    /* Scrollable container for the big image */
+    /* Scrollable container so user can scroll if image extends beyond viewport */
     .lightbox-content {
       position: relative;
       width: 100vw;
       height: 100vh;
-      overflow: auto; /* Scrolling if image is bigger on desktop */
+      overflow: auto;
       background: #fff;
+      display: flex; 
+      justify-content: center; 
+      align-items: center;
     }
-
-    /* 
-      On mobile, we want the image to fit the screen (100%).
-      On large screens, we can show a bigger image for possible horizontal scrolling.
+    /* The image itself: 
+       - Use auto width/height so aspect ratio is kept
+       - Cap at 90% of the screen 
+       - Default scale(1.2) for 20% zoom
     */
     .lightbox-content img {
       display: block;
-      margin: 0 auto;
+      max-width: 90%;
+      max-height: 90%;
+      width: auto;
       height: auto;
-      max-height: 100%; 
-      width: 100%; /* default for mobile */
-    }
-
-    @media (min-width: 768px) {
-      /* On bigger devices, we can allow a larger image for scrolling */
-      .lightbox-content img {
-        width: 1200px; 
-      }
+      transform: scale(1.2);
+      transform-origin: center center;
+      margin: 0 auto;
     }
 
     /* Close button (X) */
@@ -152,7 +150,7 @@
 </head>
 <body>
 
-  <h1>Your Wedding Invite</h1>
+  <h1>Your Wedding Invite 2.0</h1>
   
   <div class="card">
     <div class="inner" id="inviteCard">
@@ -171,8 +169,17 @@
   <button onclick="flipCard()">Flip Card</button>
 
   <div class="info">
-    <p><a href="https://www.zola.com/wedding/yoavandcharlotte" target="_blank">RSVP Here</a></p>
-    <p>Email: <a href="mailto:yourEmail@example.com">yourEmail@example.com</a></p>
+    <p>
+      <a href="https://www.zola.com/wedding/yoavandcharlotte" target="_blank">
+        RSVP Here
+      </a>
+    </p>
+    <p>
+      Email: 
+      <a href="mailto:yourEmail@example.com">
+        yourEmail@example.com
+      </a>
+    </p>
     <p>
       Location:
       <a href="https://maps.google.com/?q=Your+Venue+Address" target="_blank">
