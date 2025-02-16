@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
     body {
-      margin: 0;
-      padding: 0;
+      margin: 0; 
+      padding: 0; 
       font-family: sans-serif;
       text-align: center;
       background: #fafafa;
@@ -17,10 +17,21 @@
       margin-top: 60px;
     }
 
-    /* Optional "letter" image, if you want something visible before the GIF */
-    .letter {
-      width: 300px;
+    /* Container for letter/GIF */
+    .letter-container {
       margin: 40px auto 0;
+      width: 300px; /* Adjust as desired */
+      height: 200px; /* Set a fixed height to avoid jumping (if letter/GIF differ) */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* The letter image */
+    #myLetter {
+      width: 100%;
+      max-height: 100%;
+      object-fit: contain;
       display: block;
     }
 
@@ -37,44 +48,35 @@
     button:hover {
       background: #333;
     }
-
-    /* Hidden GIF until user clicks button */
-    #myGif {
-      display: none;
-      margin: 20px auto;
-      width: 200px; /* Adjust as desired */
-    }
   </style>
 </head>
 <body>
 
   <h1>You're invited</h1>
 
-  <!-- OPTIONAL: A static letter image. You can remove it if you don't want any letter visible at first. -->
-  <img 
-    class="letter" 
-    src="https://png.pngtree.com/png-clipart/20220502/original/pngtree-love-letter-cartoon-png-image_7649405.png" 
-    alt="Letter"
-  />
+  <!-- Container for the letter or the GIF (they never appear at the same time). -->
+  <div class="letter-container" id="letterContainer">
+    <img 
+      id="myLetter" 
+      src="https://png.pngtree.com/png-clipart/20220502/original/pngtree-love-letter-cartoon-png-image_7649405.png"
+      alt="Letter"
+    />
+  </div>
 
   <button onclick="showGifAndRedirect()">Open the letter</button>
 
-  <!-- The GIF that will replace the letter flip animation -->
-  <img
-    id="myGif"
-    src="https://media.giphy.com/media/kEKcOWl8RMLde/giphy.gif"
-    alt="Animated GIF"
-  />
-
   <script>
     function showGifAndRedirect() {
-      // Show the GIF
-      document.getElementById('myGif').style.display = 'block';
+      // Replace the letter with your GIF by changing the container's innerHTML
+      document.getElementById('letterContainer').innerHTML = `
+        <img 
+          src="https://media.giphy.com/media/kEKcOWl8RMLde/giphy.gif" 
+          alt="Opening Letter GIF" 
+          style="width:100%; max-height:100%; object-fit:contain;" 
+        />
+      `;
 
-      // Optionally hide the static letter image if you like
-      // document.querySelector('.letter').style.display = 'none';
-
-      // After 5 seconds, go to the invite page
+      // After 5 seconds, redirect to the invite page
       setTimeout(() => {
         window.location.href = 'invite.html';
       }, 5000);
