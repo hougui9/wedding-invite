@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your Wedding Invite 2.0</title>
+  <title>Your Wedding Invite 2.0 (Responsive Lightbox)</title>
   <!-- Allow pinch-zoom on mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <style>
@@ -97,7 +97,7 @@
       background: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
-      padding: 2px;
+      padding: 0; /* No extra padding so it fills the screen */
       box-sizing: border-box;
     }
     .lightbox.active {
@@ -107,18 +107,29 @@
     /* Scrollable container for the big image */
     .lightbox-content {
       position: relative;
-      width: 90vw;
-      height: 90vh;
-      overflow: auto; /* Enable scrolling if image is bigger */
-      background: #fff; /* So you can see edges of the image clearly */
+      width: 100vw;
+      height: 100vh;
+      overflow: auto; /* Scrolling if image is bigger on desktop */
+      background: #fff;
     }
 
-    /* The large image in the modal */
+    /* 
+      On mobile, we want the image to fit the screen (100%).
+      On large screens, we can show a bigger image for possible horizontal scrolling.
+    */
     .lightbox-content img {
-      width: 800px; /* Larger than container so user can scroll around */
-      height: auto;
       display: block;
-      margin: 0 auto; /* Center horizontally */
+      margin: 0 auto;
+      height: auto;
+      max-height: 100%; 
+      width: 100%; /* default for mobile */
+    }
+
+    @media (min-width: 768px) {
+      /* On bigger devices, we can allow a larger image for scrolling */
+      .lightbox-content img {
+        width: 1200px; 
+      }
     }
 
     /* Close button (X) */
