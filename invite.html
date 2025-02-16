@@ -16,10 +16,11 @@
       margin-top: 40px;
     }
 
+    /* ----- Card Flip Layout ----- */
     .card {
       width: 90vw;
       max-width: 400px;
-      aspect-ratio: 2 / 3; /* Adjust if your images are taller/wider */
+      aspect-ratio: 2 / 3; /* Adjust if images are taller/wider */
       margin: 20px auto;
       perspective: 1000px;
       background: #fff;
@@ -40,7 +41,7 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
-      cursor: zoom-in; /* Indicate it's clickable */
+      cursor: zoom-in; /* Let user know it's clickable */
     }
     /* Replace with your real invite images */
     .front {
@@ -54,6 +55,7 @@
       transform: rotateY(180deg);
     }
 
+    /* ----- Buttons & Info ----- */
     button {
       margin-top: 20px;
       padding: 12px 24px;
@@ -68,7 +70,6 @@
     button:hover {
       background: #333;
     }
-
     .info {
       margin: 20px auto;
       max-width: 300px;
@@ -85,43 +86,73 @@
       text-decoration: underline;
     }
 
-    /* Lightbox modal overlay */
+    /* ----- Modal / Lightbox Overlay ----- */
     .lightbox {
+      display: none; /* Hidden by default */
       position: fixed;
+      z-index: 9999;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
       background: rgba(0,0,0,0.8);
-      display: none; /* Hidden by default */
       justify-content: center;
       align-items: center;
-      z-index: 9999;
+      padding: 20px;
+      box-sizing: border-box;
     }
-    /* Large image in the modal */
-    .lightbox img {
-      max-width: 90%;
-      max-height: 90%;
-      box-shadow: 0 4px 10px rgba(255,255,255,0.3);
+    .lightbox.active {
+      display: flex; /* Show when active */
     }
-    /* Click anywhere to close */
-    .lightbox:target {
-      display: flex; /* Show the overlay when targeted via anchor */
+
+    /* Modal content container */
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
     }
+
+    /* The large image in the modal */
+    .lightbox-content img {
+      width: 100%;
+      height: auto;
+      transition: transform 0.3s;
+      cursor: zoom-out; /* Indicate you can zoom out / close */
+    }
+    /* Optional hover zoom (desktop only) */
+    @media (hover: hover) {
+      .lightbox-content img:hover {
+        transform: scale(1.2);
+      }
+    }
+
+    /* Close button (X) */
+    .close-btn {
+      position: absolute;
+      top: -40px; 
+      right: -10px;
+      font-size: 28px;
+      font-weight: bold;
+      color: #fff;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .close-btn:hover {
+      color: #ccc;
+    }
+
   </style>
 </head>
 <body>
 
   <h1>Your Wedding Invite</h1>
   
-  <!-- The flipping card -->
   <div class="card">
     <div class="inner" id="inviteCard">
-      <!-- Front side: on click, open #lightbox with a query param for the front image -->
+      <!-- Clicking front/back opens the same modal but with different images -->
       <div 
         class="front" 
         onclick="openLightbox('https://static.wixstatic.com/media/c9feeb_d3c0901d5d294dc2b854934892cf85ef~mv2.png')"
       ></div>
-
-      <!-- Back side: open #lightbox with back image -->
       <div 
         class="back" 
         onclick="openLightbox('https://static.wixstatic.com/media/c9feeb_68923cf559d74a2283bcd7c440087155~mv2.png')"
@@ -142,10 +173,12 @@
     </p>
   </div>
 
-  <!-- Lightbox Overlay -->
-  <div class="lightbox" id="lightbox">
-    <!-- The big image inserted via JS -->
-    <img id="lightboxImage" src="#" alt="Invite Image">
+  <!-- Modal Overlay -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <div class="lightbox-content">
+      <button class="close-btn" onclick="closeLightbox(event)">&times;</button>
+      <img id="lightboxImage" src="#" alt="Invite Side" />
+    </div>
   </div>
 
   <script>
@@ -153,14 +186,22 @@
       document.getElementById('inviteCard').classList.toggle('flipped');
     }
 
-    function openLightbox(imgUrl) {
-      // Set the large image src
-      const bigImg = document.getElementById('lightboxImage');
-      bigImg.src = imgUrl;
+    function openLightbox(imageUrl) {
+      // Set the large image's src
+      const img = document.getElementById('lightboxImage');
+      img.src = imageUrl;
 
-      // Programmatically navigate to the #lightbox anchor so the overlay displays
-      // (Because .lightbox:target { display: flex; })
-      window.location.hash = 'lightbox';
+      // Show the overlay
+      document.getElementById('lightbox').classList.add('active');
+    }
+
+    function closeLightbox(e) {
+      // If user clicked outside the .lightbox-content or on the close button, hide the overlay
+      // e.target === e.currentTarget ensures we only close if the user clicked 
+      // the dark background (lightbox) or the close button itself, not the image.
+      if (e.target.id === 'lightbox' || e.target.classList.contains('close-btn')) {
+        document.getElementById('lightbox').classList.remove('active');
+      }
     }
   </script>
 </body>
