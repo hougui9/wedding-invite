@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Your Wedding Invite</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- Allow pinch-zoom on mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <style>
     body {
       margin: 0; 
@@ -20,7 +21,7 @@
     .card {
       width: 90vw;
       max-width: 400px;
-      aspect-ratio: 2 / 3; /* Adjust if images are taller/wider */
+      aspect-ratio: 2 / 3; /* Adjust if your images are taller/wider */
       margin: 20px auto;
       perspective: 1000px;
       background: #fff;
@@ -41,7 +42,7 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
-      cursor: zoom-in; /* Let user know it's clickable */
+      cursor: zoom-in; /* Indicate it's clickable */
     }
     /* Replace with your real invite images */
     .front {
@@ -96,50 +97,46 @@
       background: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 10px;
       box-sizing: border-box;
     }
     .lightbox.active {
       display: flex; /* Show when active */
     }
 
-    /* Modal content container */
+    /* Scrollable container for the big image */
     .lightbox-content {
       position: relative;
-      max-width: 90vw;
-      max-height: 90vh;
+      width: 90vw;
+      height: 90vh;
+      overflow: auto; /* Enable scrolling if image is bigger */
+      background: #fff; /* So you can see edges of the image clearly */
     }
 
     /* The large image in the modal */
     .lightbox-content img {
-      width: 100%;
+      width: 1200px; /* Larger than container so user can scroll around */
       height: auto;
-      transition: transform 0.3s;
-      cursor: zoom-out; /* Indicate you can zoom out / close */
-    }
-    /* Optional hover zoom (desktop only) */
-    @media (hover: hover) {
-      .lightbox-content img:hover {
-        transform: scale(1.2);
-      }
+      display: block;
+      margin: 0 auto; /* Center horizontally */
     }
 
     /* Close button (X) */
     .close-btn {
       position: absolute;
-      top: -40px; 
-      right: -10px;
+      top: 10px; 
+      right: 10px;
       font-size: 28px;
       font-weight: bold;
-      color: #fff;
-      background: none;
+      color: #000;
+      background: #fff;
       border: none;
+      border-radius: 4px;
       cursor: pointer;
     }
     .close-btn:hover {
-      color: #ccc;
+      background: #ddd;
     }
-
   </style>
 </head>
 <body>
@@ -174,9 +171,9 @@
   </div>
 
   <!-- Modal Overlay -->
-  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox" id="lightbox">
     <div class="lightbox-content">
-      <button class="close-btn" onclick="closeLightbox(event)">&times;</button>
+      <button class="close-btn" onclick="closeLightbox()">&times;</button>
       <img id="lightboxImage" src="#" alt="Invite Side" />
     </div>
   </div>
@@ -195,13 +192,9 @@
       document.getElementById('lightbox').classList.add('active');
     }
 
-    function closeLightbox(e) {
-      // If user clicked outside the .lightbox-content or on the close button, hide the overlay
-      // e.target === e.currentTarget ensures we only close if the user clicked 
-      // the dark background (lightbox) or the close button itself, not the image.
-      if (e.target.id === 'lightbox' || e.target.classList.contains('close-btn')) {
-        document.getElementById('lightbox').classList.remove('active');
-      }
+    function closeLightbox() {
+      // Hide the overlay
+      document.getElementById('lightbox').classList.remove('active');
     }
   </script>
 </body>
