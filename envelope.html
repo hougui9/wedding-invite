@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>You're Invited</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <style>
     body {
       margin: 0; 
@@ -12,21 +13,19 @@
       text-align: center;
       background: #fafafa;
     }
+
     h1 {
       margin-top: 60px;
     }
 
-    /* Container for letter/GIF */
     .letter-container {
       margin: 40px auto 0;
-      width: 300px; /* Adjust as desired */
-      height: 200px; /* Keep a fixed height to prevent layout shift */
+      width: 300px; 
+      height: 200px; 
       display: flex;
       justify-content: center;
       align-items: center;
     }
-
-    /* The letter image */
     #myLetter {
       width: 100%;
       max-height: 100%;
@@ -34,8 +33,8 @@
       display: block;
     }
 
-    /* Bigger button styling */
-    button {
+    /* Button styling */
+    #openButton {
       margin: 20px auto 0;
       padding: 16px 32px;
       font-size: 20px;
@@ -46,8 +45,37 @@
       color: #fff;
       cursor: pointer;
     }
-    button:hover {
+    #openButton:hover {
       background: #333;
+    }
+
+    /* Hidden by default; 
+       This appears once the letter is "opening." */
+    #openingMessage {
+      display: none;
+      margin-top: 20px;
+    }
+    #openingText {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    /* Loading bar container */
+    .progress-bar {
+      width: 300px;
+      height: 8px;
+      background: #ddd;
+      border-radius: 4px;
+      margin: 0 auto;
+      overflow: hidden;
+      position: relative;
+    }
+    /* The bar that fills up */
+    .progress-fill {
+      background: #000;
+      height: 100%;
+      width: 0;
+      transition: width 4s linear; /* 4s fill animation */
     }
   </style>
 </head>
@@ -55,7 +83,6 @@
 
   <h1>You're invited</h1>
 
-  <!-- Container for the letter or the GIF -->
   <div class="letter-container" id="letterContainer">
     <img 
       id="myLetter" 
@@ -64,15 +91,24 @@
     />
   </div>
 
+  <!-- Button to open letter initially -->
   <button id="openButton" onclick="showGifAndRedirect()">Open the letter</button>
+
+  <!-- Message + progress bar -->
+  <div id="openingMessage">
+    <div id="openingText">Opening your letter...</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
 
   <script>
     function showGifAndRedirect() {
-      // Change the button text to give feedback
+      // Hide the original button
       const btn = document.getElementById('openButton');
-      btn.textContent = "Opening the letter...";
+      btn.style.display = 'none';
 
-      // Replace the letter with your GIF
+      // Swap out the letter for a GIF (optional)
       document.getElementById('letterContainer').innerHTML = `
         <img
           src="https://media1.tenor.com/m/Y9ednQWGwX8AAAAC/friends-friends-tv.gif"
@@ -81,7 +117,13 @@
         />
       `;
 
-      // Redirect after 4 seconds
+      // Show the "Opening your letter..." message + loading bar
+      document.getElementById('openingMessage').style.display = 'block';
+
+      // Trigger the progress bar fill
+      document.getElementById('progressFill').style.width = '100%';
+
+      // After 4 seconds, redirect to the invite page
       setTimeout(() => {
         window.location.href = 'invite.html';
       }, 4000);
