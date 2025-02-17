@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your Wedding Invite (Confetti + Fade-in + Better Scroll)</title>
+  <title>Your Wedding Invite (No Transform, Scrollable Lightbox)</title>
   <!-- Allow pinch-zoom on mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
   <style>
     body {
       margin: 0; 
@@ -12,14 +13,13 @@
       text-align: center;
       font-family: Arial, sans-serif;
       background: #fafafa;
-      /* This can help prevent bounce-scrolling on iOS if desired */
-      overscroll-behavior: none;
+      overscroll-behavior: none; /* Optional: Prevent iOS bounce outside page */
     }
     h1 {
       margin-top: 40px;
     }
 
-    /* ---- Fade-In Keyframe ---- */
+    /* ---- Keyframes for Fade-In ---- */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -35,13 +35,12 @@
     .card {
       width: 90vw;
       max-width: 400px;
-      aspect-ratio: 2 / 3; /* If your images are taller, adjust accordingly */
+      aspect-ratio: 2 / 3; /* Adjust if images are taller/wider */
       margin: 20px auto;
       perspective: 1000px;
       background: #fff;
       position: relative;
-      /* Animate the card’s appearance on page load */
-      animation: fadeInUp 1.2s ease forwards;
+      animation: fadeInUp 1.2s ease forwards; /* Fade in the card on load */
     }
     .inner {
       width: 100%;
@@ -53,8 +52,7 @@
     .front, .back {
       position: absolute;
       top: 0; left: 0;
-      width: 100%; 
-      height: 100%;
+      width: 100%; height: 100%;
       backface-visibility: hidden;
       background-repeat: no-repeat;
       background-position: center;
@@ -117,13 +115,13 @@
       align-items: center;
       padding: 0;
       box-sizing: border-box;
-      overscroll-behavior: contain; /* Keep scrolling within the modal */
+      overscroll-behavior: contain; /* Keep scrolling within modal on iOS */
     }
     .lightbox.active {
       display: flex; /* Show overlay */
     }
 
-    /* Scrollable container so user can scroll if image extends beyond viewport */
+    /* Scrollable container so user can pan around the large image */
     .lightbox-content {
       position: relative;
       width: 100vw;
@@ -131,26 +129,33 @@
       overflow: auto;
       -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
       background: #fff;
-      display: flex; 
-      justify-content: center; 
-      align-items: center;
       padding: 20px; /* Slight padding to avoid edge-grip issues */
       box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     /* 
-       - Keep aspect ratio 
-       - Scale up to ~40% bigger 
-       - If bigger than screen, user can scroll or pinch-zoom
+      We'll make the image large enough that desktop can scroll around 
+      but on mobile, we scale it to 100% width for better pinch-zoom. 
     */
     .lightbox-content img {
       display: block;
-      max-width: 90%;
-      max-height: 90%;
-      width: auto;
-      height: auto;
-      transform: scale(1.4); 
-      transform-origin: center center;
       margin: 0 auto;
+      height: auto;
+    }
+
+    /* For larger screens, let's force a big image so user can scroll/pan around. */
+    @media (min-width: 768px) {
+      .lightbox-content img {
+        width: 1200px; /* Big enough to require scrolling for details */
+      }
+    }
+    /* For smaller screens, fill the width, allowing pinch-zoom. */
+    @media (max-width: 767px) {
+      .lightbox-content img {
+        width: 100%;
+      }
     }
 
     /* Close button (X) */
@@ -173,7 +178,7 @@
 </head>
 <body>
 
-  <h1>Your Wedding Invite 2.2</h1>
+  <h1>Your Wedding Invite 2.3</h1>
   
   <!-- The flipping card -->
   <div class="card">
@@ -224,9 +229,8 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
-    // Confetti on page load
+    // On page load, show confetti
     window.onload = function() {
-      // A quick burst of confetti
       confetti({
         particleCount: 100,
         spread: 70,
@@ -242,7 +246,6 @@
       // Set the large image's src
       const img = document.getElementById('lightboxImage');
       img.src = imageUrl;
-
       // Show the overlay
       document.getElementById('lightbox').classList.add('active');
     }
