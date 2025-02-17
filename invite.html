@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your Wedding Invite (Lightbox 20% Zoom)</title>
+  <title>Your Wedding Invite (Bigger Zoom + Confetti)</title>
   <!-- Allow pinch-zoom on mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
   <style>
     body {
       margin: 0; 
@@ -103,6 +104,7 @@
     .lightbox.active {
       display: flex; /* Show overlay */
     }
+
     /* Scrollable container so user can scroll if image extends beyond viewport */
     .lightbox-content {
       position: relative;
@@ -114,10 +116,10 @@
       justify-content: center; 
       align-items: center;
     }
-    /* The image itself: 
-       - Use auto width/height so aspect ratio is kept
-       - Cap at 90% of the screen 
-       - Default scale(1.2) for 20% zoom
+    /* 
+       - Keep aspect ratio 
+       - Scale up more than 20% (e.g. 40% => scale(1.4))
+       - If the image is bigger than the screen, user can scroll
     */
     .lightbox-content img {
       display: block;
@@ -125,7 +127,7 @@
       max-height: 90%;
       width: auto;
       height: auto;
-      transform: scale(1.2);
+      transform: scale(1.4); /* bigger default zoom */
       transform-origin: center center;
       margin: 0 auto;
     }
@@ -150,8 +152,9 @@
 </head>
 <body>
 
-  <h1>Your Wedding Invite 2.0</h1>
+  <h1>Your Wedding Invite 2.1</h1>
   
+  <!-- The flipping card -->
   <div class="card">
     <div class="inner" id="inviteCard">
       <!-- Clicking front/back opens the same modal but with different images -->
@@ -196,7 +199,20 @@
     </div>
   </div>
 
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <script>
+    // Confetti on page load
+    window.onload = function() {
+      // A quick burst of confetti
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    };
+
     function flipCard() {
       document.getElementById('inviteCard').classList.toggle('flipped');
     }
