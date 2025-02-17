@@ -12,7 +12,6 @@
       text-align: center;
       background: #fafafa;
     }
-
     h1 {
       margin-top: 60px;
     }
@@ -21,7 +20,7 @@
     .letter-container {
       margin: 40px auto 0;
       width: 300px; /* Adjust as desired */
-      height: 200px; /* Set a fixed height to avoid jumping (if letter/GIF differ) */
+      height: 200px; /* Keep a fixed height to prevent layout shift */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -35,9 +34,11 @@
       display: block;
     }
 
+    /* Bigger button styling */
     button {
       margin: 20px auto 0;
-      padding: 12px 24px;
+      padding: 16px 32px;
+      font-size: 20px;
       font-weight: bold;
       border: none;
       border-radius: 6px;
@@ -54,7 +55,7 @@
 
   <h1>You're invited</h1>
 
-  <!-- Container for the letter or the GIF (they never appear at the same time). -->
+  <!-- Container for the letter or the GIF -->
   <div class="letter-container" id="letterContainer">
     <img 
       id="myLetter" 
@@ -63,20 +64,24 @@
     />
   </div>
 
-  <button onclick="showGifAndRedirect()">Open the letter</button>
+  <button id="openButton" onclick="showGifAndRedirect()">Open the letter</button>
 
   <script>
     function showGifAndRedirect() {
-      // Replace the letter with your GIF by changing the container's innerHTML
+      // Change the button text to give feedback
+      const btn = document.getElementById('openButton');
+      btn.textContent = "Opening the letter...";
+
+      // Replace the letter with your GIF
       document.getElementById('letterContainer').innerHTML = `
-        <img 
-          src="https://media1.tenor.com/m/Y9ednQWGwX8AAAAC/friends-friends-tv.gif" 
-          alt="Opening Letter GIF" 
-          style="width:100%; max-height:100%; object-fit:contain;" 
+        <img
+          src="https://media1.tenor.com/m/Y9ednQWGwX8AAAAC/friends-friends-tv.gif"
+          alt="Opening Letter GIF"
+          style="width:100%; max-height:100%; object-fit:contain;"
         />
       `;
 
-      // After 5 seconds, redirect to the invite page
+      // Redirect after 4 seconds
       setTimeout(() => {
         window.location.href = 'invite.html';
       }, 4000);
