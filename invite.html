@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your Wedding Invite (Bigger Zoom + Confetti)</title>
+  <title>Your Wedding Invite (Confetti + Fade-in + Better Scroll)</title>
   <!-- Allow pinch-zoom on mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
   <style>
     body {
       margin: 0; 
@@ -13,20 +12,36 @@
       text-align: center;
       font-family: Arial, sans-serif;
       background: #fafafa;
+      /* This can help prevent bounce-scrolling on iOS if desired */
+      overscroll-behavior: none;
     }
     h1 {
       margin-top: 40px;
     }
 
-    /* ---- Flip Card Setup ---- */
+    /* ---- Fade-In Keyframe ---- */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ---- The flipping card ---- */
     .card {
       width: 90vw;
       max-width: 400px;
-      aspect-ratio: 2 / 3; /* Adjust if your images are taller/wider */
+      aspect-ratio: 2 / 3; /* If your images are taller, adjust accordingly */
       margin: 20px auto;
       perspective: 1000px;
       background: #fff;
       position: relative;
+      /* Animate the card’s appearance on page load */
+      animation: fadeInUp 1.2s ease forwards;
     }
     .inner {
       width: 100%;
@@ -38,7 +53,8 @@
     .front, .back {
       position: absolute;
       top: 0; left: 0;
-      width: 100%; height: 100%;
+      width: 100%; 
+      height: 100%;
       backface-visibility: hidden;
       background-repeat: no-repeat;
       background-position: center;
@@ -94,12 +110,14 @@
       position: fixed;
       z-index: 9999;
       top: 0; left: 0;
-      width: 100vw; height: 100vh;
+      width: 100vw; 
+      height: 100vh;
       background: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
       padding: 0;
       box-sizing: border-box;
+      overscroll-behavior: contain; /* Keep scrolling within the modal */
     }
     .lightbox.active {
       display: flex; /* Show overlay */
@@ -111,15 +129,18 @@
       width: 100vw;
       height: 100vh;
       overflow: auto;
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
       background: #fff;
       display: flex; 
       justify-content: center; 
       align-items: center;
+      padding: 20px; /* Slight padding to avoid edge-grip issues */
+      box-sizing: border-box;
     }
     /* 
        - Keep aspect ratio 
-       - Scale up more than 20% (e.g. 40% => scale(1.4))
-       - If the image is bigger than the screen, user can scroll
+       - Scale up to ~40% bigger 
+       - If bigger than screen, user can scroll or pinch-zoom
     */
     .lightbox-content img {
       display: block;
@@ -127,7 +148,7 @@
       max-height: 90%;
       width: auto;
       height: auto;
-      transform: scale(1.4); /* bigger default zoom */
+      transform: scale(1.4); 
       transform-origin: center center;
       margin: 0 auto;
     }
@@ -152,7 +173,7 @@
 </head>
 <body>
 
-  <h1>Your Wedding Invite 2.1</h1>
+  <h1>Your Wedding Invite 2.2</h1>
   
   <!-- The flipping card -->
   <div class="card">
