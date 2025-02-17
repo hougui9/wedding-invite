@@ -63,19 +63,20 @@
     /* Loading bar container */
     .progress-bar {
       width: 300px;
-      height: 8px;
+      height: 12px; /* Slightly taller */
       background: #ddd;
       border-radius: 4px;
       margin: 0 auto;
       overflow: hidden;
       position: relative;
+      border: 1px solid #ccc; /* Outline so it’s clearly visible */
     }
     /* The bar that fills up */
     .progress-fill {
-      background: #000;
+      background: #ff5722; /* A bright orange fill */
       height: 100%;
       width: 0;
-      transition: width 4s linear; /* 4s fill animation */
+      transition: width 4s linear;
     }
   </style>
 </head>
@@ -108,7 +109,7 @@
       const btn = document.getElementById('openButton');
       btn.style.display = 'none';
 
-      // Swap out the letter for a GIF (optional)
+      // Optionally replace the letter with a GIF
       document.getElementById('letterContainer').innerHTML = `
         <img
           src="https://media1.tenor.com/m/Y9ednQWGwX8AAAAC/friends-friends-tv.gif"
@@ -120,13 +121,15 @@
       // Show the "Opening your letter..." message + loading bar
       document.getElementById('openingMessage').style.display = 'block';
 
-      // Trigger the progress bar fill
-      document.getElementById('progressFill').style.width = '100%';
+      // Let the element render, then animate the fill
+      setTimeout(() => {
+        document.getElementById('progressFill').style.width = '100%';
+      }, 50);
 
       // After 4 seconds, redirect to the invite page
       setTimeout(() => {
         window.location.href = 'invite.html';
-      }, 4000);
+      }, 4050);
     }
   </script>
 </body>
