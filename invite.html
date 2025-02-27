@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your Wedding Invite (No Transform, Scrollable Lightbox)</title>
+  <title>Your Wedding Invite 2.4</title>
   <!-- Allow pinch-zoom on mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -36,7 +36,7 @@
       width: 90vw;
       max-width: 400px;
       aspect-ratio: 2 / 3; /* Adjust if images are taller/wider */
-      margin: 20px auto;
+      margin: 20px auto 0;  /* Start at 20px from top after the heading */
       perspective: 1000px;
       background: #fff;
       position: relative;
@@ -72,8 +72,10 @@
     }
 
     /* ---- Buttons & Info ---- */
-    button {
-      margin-top: 20px;
+    .flip-container {
+      margin: 10px auto; /* So it's just under the card */
+    }
+    .flip-container button {
       padding: 12px 24px;
       font-size: 16px;
       font-weight: bold;
@@ -83,9 +85,10 @@
       color: #fff;
       cursor: pointer;
     }
-    button:hover {
+    .flip-container button:hover {
       background: #333;
     }
+
     .info {
       margin: 20px auto;
       max-width: 300px;
@@ -137,21 +140,20 @@
     }
     /* 
       We'll make the image large enough that desktop can scroll around 
-      but on mobile, we scale it to 100% width for better pinch-zoom. 
+      but on mobile, it can be 100% width for pinch-zoom. 
     */
     .lightbox-content img {
       display: block;
       margin: 0 auto;
       height: auto;
     }
-
-    /* For larger screens, let's force a big image so user can scroll/pan around. */
+    /* Force a big image for desktop (≥768px) */
     @media (min-width: 768px) {
       .lightbox-content img {
-        width: 1200px; /* Big enough to require scrolling for details */
+        width: 1200px;
       }
     }
-    /* For smaller screens, fill the width, allowing pinch-zoom. */
+    /* For smaller screens, fill the width */
     @media (max-width: 767px) {
       .lightbox-content img {
         width: 100%;
@@ -178,8 +180,8 @@
 </head>
 <body>
 
-  <h1>Your Wedding Invite 2.3</h1>
-  
+  <h1>Your Wedding Invite 2.4</h1>
+
   <!-- The flipping card -->
   <div class="card">
     <div class="inner" id="inviteCard">
@@ -195,7 +197,10 @@
     </div>
   </div>
 
-  <button onclick="flipCard()">Flip Card</button>
+  <!-- Button is close to the card -->
+  <div class="flip-container">
+    <button onclick="flipCard()">Flip Card</button>
+  </div>
 
   <div class="info">
     <p>
@@ -204,7 +209,7 @@
       </a>
     </p>
     <p>
-      Email: 
+      Email:
       <a href="mailto:yourEmail@example.com">
         yourEmail@example.com
       </a>
@@ -229,7 +234,7 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
-    // On page load, show confetti
+    // Confetti on page load
     window.onload = function() {
       confetti({
         particleCount: 100,
@@ -244,14 +249,12 @@
 
     function openLightbox(imageUrl) {
       // Set the large image's src
-      const img = document.getElementById('lightboxImage');
-      img.src = imageUrl;
+      document.getElementById('lightboxImage').src = imageUrl;
       // Show the overlay
       document.getElementById('lightbox').classList.add('active');
     }
 
     function closeLightbox() {
-      // Hide the overlay
       document.getElementById('lightbox').classList.remove('active');
     }
   </script>
