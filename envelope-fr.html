@@ -1,250 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Your Wedding Invite</title>
-  <!-- Allow pinch-zoom on mobile -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta charset="UTF-8" />
+  <title>Vous êtes invités !</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <style>
     body {
       margin: 0; 
-      padding: 0;
+      padding: 0; 
+      font-family: sans-serif;
       text-align: center;
-      font-family: Arial, sans-serif;
       background: #fafafa;
-      overscroll-behavior: none; /* Optional: Prevent iOS bounce */
     }
+
     h1 {
-      margin-top: 40px;
+      margin-top: 60px;
     }
 
-    /* Fade-In Keyframes */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .letter-container {
+      margin: 40px auto 0;
+      width: 300px; 
+      height: 200px; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-
-    /* Flipping Card */
-    .card {
-      width: 90vw;
-      max-width: 400px;
-      aspect-ratio: 2 / 3;
-      margin: 20px auto 0; 
-      perspective: 1000px;
-      background: #fff;
-      position: relative;
-      animation: fadeInUp 1.2s ease forwards;
-    }
-    .inner {
+    #myLetter {
       width: 100%;
-      height: 100%;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
-      position: relative;
-    }
-    .front, .back {
-      position: absolute;
-      top: 0; 
-      left: 0;
-      width: 100%; 
-      height: 100%;
-      backface-visibility: hidden;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
-      cursor: zoom-in;
-    }
-    /* Replace these images if you have different front/back */
-    .front {
-      background-image: url('https://static.wixstatic.com/media/c9feeb_d3c0901d5d294dc2b854934892cf85ef~mv2.png');
-    }
-    .back {
-      background-image: url('https://static.wixstatic.com/media/c9feeb_68923cf559d74a2283bcd7c440087155~mv2.png');
-      transform: rotateY(180deg);
-    }
-    .flipped {
-      transform: rotateY(180deg);
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
     }
 
-    .flip-container {
-      margin: 10px auto;
-    }
-    .flip-container button {
-      padding: 12px 24px;
-      font-size: 16px;
+    /* Bouton */
+    #openButton {
+      margin: 20px auto 0;
+      padding: 16px 32px;
+      font-size: 20px;
       font-weight: bold;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       background: #000;
       color: #fff;
       cursor: pointer;
     }
-    .flip-container button:hover {
+    #openButton:hover {
       background: #333;
     }
 
-    .info {
+    /* Barre de progression (cachée par défaut) */
+    #openingMessage {
+      display: none;
       margin: 20px auto;
       max-width: 300px;
+      text-align: center;
     }
-    .info p {
-      margin: 10px 0;
-      font-size: 16px;
-    }
-    a {
-      color: #0066cc;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
+    #openingText {
+      font-size: 18px;
+      margin-bottom: 10px;
     }
 
-    /* Lightbox / Modal */
-    .lightbox {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      top: 0; 
-      left: 0;
-      width: 100vw; 
-      height: 100vh;
-      background: rgba(0,0,0,0.8);
-      justify-content: center;
-      align-items: center;
-      padding: 0;
-      box-sizing: border-box;
-      overscroll-behavior: contain;
-    }
-    .lightbox.active {
-      display: flex;
-    }
-    .lightbox-content {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-      background: #fff;
-      padding: 20px;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .lightbox-content img {
-      display: block;
-      margin: 0 auto;
-      height: auto;
-    }
-    @media (min-width: 768px) {
-      .lightbox-content img {
-        width: 1200px;
-      }
-    }
-    @media (max-width: 767px) {
-      .lightbox-content img {
-        width: 100%;
-      }
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 10px; 
-      right: 10px;
-      font-size: 28px;
-      font-weight: bold;
-      color: #000;
-      background: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .close-btn:hover {
+    .progress-bar {
+      width: 100%;
+      height: 12px;
       background: #ddd;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      position: relative;
+    }
+    .progress-fill {
+      background: #ff5722; /* Couleur orange */
+      height: 100%;
+      width: 0;
+      transition: width 4s linear;
     }
   </style>
 </head>
 <body>
 
-  <h1>Your Wedding Invite</h1>
+  <h1>Vous êtes invités !</h1>
 
-  <!-- The flipping card -->
-  <div class="card">
-    <div class="inner" id="inviteCard">
-      <div 
-        class="front" 
-        onclick="openLightbox('https://static.wixstatic.com/media/c9feeb_d3c0901d5d294dc2b854934892cf85ef~mv2.png')"
-      ></div>
-      <div 
-        class="back" 
-        onclick="openLightbox('https://static.wixstatic.com/media/c9feeb_68923cf559d74a2283bcd7c440087155~mv2.png')"
-      ></div>
+  <div class="letter-container" id="letterContainer">
+    <!-- Nouvelle image d'enveloppe -->
+    <img 
+      id="myLetter" 
+      src="https://static.wixstatic.com/media/c9feeb_6072a6fe19014a64ac3f5df4784b8e48~mv2.png"
+      alt="Lettre"
+    />
+  </div>
+
+  <!-- Bouton déclenchant la barre de progression et la redirection -->
+  <button id="openButton" onclick="ouvrirLettre()">Ouvrir la lettre</button>
+
+  <!-- Section de progression -->
+  <div id="openingMessage">
+    <div id="openingText">Ouverture en cours...</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
     </div>
   </div>
-
-  <div class="flip-container">
-    <button onclick="flipCard()">Flip Card</button>
-  </div>
-
-  <div class="info">
-    <p>
-      <a href="https://www.zola.com/wedding/yoavandcharlotte" target="_blank">
-        RSVP Here
-      </a>
-    </p>
-    <p>
-      Email:
-      <a href="mailto:yourEmail@example.com">
-        yourEmail@example.com
-      </a>
-    </p>
-    <p>
-      Location:
-      <a href="https://maps.google.com/?q=Your+Venue+Address" target="_blank">
-        Your Venue Address
-      </a>
-    </p>
-  </div>
-
-  <!-- Modal for full-screen view -->
-  <div class="lightbox" id="lightbox">
-    <div class="lightbox-content">
-      <button class="close-btn" onclick="closeLightbox()">&times;</button>
-      <img id="lightboxImage" src="#" alt="Invite Side" />
-    </div>
-  </div>
-
-  <!-- Confetti script from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
-    // Confetti on page load (invite page only)
-    window.onload = function() {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
-    };
+    function ouvrirLettre() {
+      // Cacher le bouton
+      document.getElementById('openButton').style.display = 'none';
 
-    function flipCard() {
-      document.getElementById('inviteCard').classList.toggle('flipped');
-    }
+      // Remplacer l'enveloppe par un GIF
+      document.getElementById('letterContainer').innerHTML = `
+        <img
+          src="https://media1.tenor.com/m/Y9ednQWGwX8AAAAC/friends-friends-tv.gif"
+          alt="Ouverture"
+          style="width:100%; max-height:100%; object-fit:contain;"
+        />
+      `;
 
-    function openLightbox(imageUrl) {
-      document.getElementById('lightboxImage').src = imageUrl;
-      document.getElementById('lightbox').classList.add('active');
-    }
+      // Afficher le message + la barre
+      document.getElementById('openingMessage').style.display = 'block';
 
-    function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('active');
+      // Animer la progression après un bref délai
+      setTimeout(() => {
+        document.getElementById('progressFill').style.width = '100%';
+      }, 50);
+
+      // Au bout de 4 secondes, passer à la page d'invitation (invite-fr.html)
+      setTimeout(() => {
+        window.location.href = 'invite-fr.html';
+      }, 4050);
     }
   </script>
 </body>
