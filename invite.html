@@ -2,45 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your Wedding Invite 2.4</title>
-  <!-- Allow pinch-zoom on mobile -->
+  <title>Your Wedding Invite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
   <style>
     body {
-      margin: 0; 
+      margin: 0;
       padding: 0;
       text-align: center;
       font-family: Arial, sans-serif;
       background: #fafafa;
-      overscroll-behavior: none; /* Optional: Prevent iOS bounce outside page */
+      overscroll-behavior: none;
     }
-    h1 {
-      margin-top: 40px;
-    }
-
-    /* ---- Keyframes for Fade-In ---- */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* ---- The flipping card ---- */
+    /* Flipping Card */
     .card {
       width: 90vw;
       max-width: 400px;
-      aspect-ratio: 2 / 3; /* Adjust if images are taller/wider */
-      margin: 20px auto 0;  /* Start at 20px from top after the heading */
+      aspect-ratio: 2 / 3;
+      margin: 20px auto 0;
       perspective: 1000px;
       background: #fff;
       position: relative;
-      animation: fadeInUp 1.2s ease forwards; /* Fade in the card on load */
+      animation: fadeInUp 1.2s ease forwards;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .inner {
       width: 100%;
@@ -57,9 +43,8 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
-      cursor: zoom-in; /* Indicate it's clickable */
+      cursor: zoom-in;
     }
-    /* Replace with your real invite images */
     .front {
       background-image: url('https://static.wixstatic.com/media/c9feeb_d3c0901d5d294dc2b854934892cf85ef~mv2.png');
     }
@@ -70,25 +55,23 @@
     .flipped {
       transform: rotateY(180deg);
     }
-
-    /* ---- Buttons & Info ---- */
+    /* Refined flip button (closer to card) */
     .flip-container {
-      margin: 10px auto; /* So it's just under the card */
+      margin: 5px auto 0;
     }
     .flip-container button {
-      padding: 12px 24px;
+      padding: 10px 20px;
       font-size: 16px;
       font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      background: #000;
-      color: #fff;
+      border: 2px solid #000;
+      border-radius: 6px;
+      background: #fff;
+      color: #000;
       cursor: pointer;
     }
     .flip-container button:hover {
-      background: #333;
+      background: #f2f2f2;
     }
-
     .info {
       margin: 20px auto;
       max-width: 300px;
@@ -104,67 +87,54 @@
     a:hover {
       text-decoration: underline;
     }
-
-    /* ---- Lightbox / Modal ---- */
+    /* Lightbox */
     .lightbox {
-      display: none; /* Hidden by default */
+      display: none;
       position: fixed;
       z-index: 9999;
       top: 0; left: 0;
-      width: 100vw; 
-      height: 100vh;
+      width: 100vw; height: 100vh;
       background: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
       padding: 0;
       box-sizing: border-box;
-      overscroll-behavior: contain; /* Keep scrolling within modal on iOS */
+      overscroll-behavior: contain;
     }
     .lightbox.active {
-      display: flex; /* Show overlay */
+      display: flex;
     }
-
-    /* Scrollable container so user can pan around the large image */
     .lightbox-content {
       position: relative;
       width: 100vw;
       height: 100vh;
       overflow: auto;
-      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+      -webkit-overflow-scrolling: touch;
       background: #fff;
-      padding: 20px; /* Slight padding to avoid edge-grip issues */
+      padding: 20px;
       box-sizing: border-box;
       display: flex;
       justify-content: center;
       align-items: center;
     }
-    /* 
-      We'll make the image large enough that desktop can scroll around 
-      but on mobile, it can be 100% width for pinch-zoom. 
-    */
     .lightbox-content img {
       display: block;
       margin: 0 auto;
       height: auto;
     }
-    /* Force a big image for desktop (≥768px) */
     @media (min-width: 768px) {
       .lightbox-content img {
         width: 1200px;
       }
     }
-    /* For smaller screens, fill the width */
     @media (max-width: 767px) {
       .lightbox-content img {
         width: 100%;
       }
     }
-
-    /* Close button (X) */
     .close-btn {
       position: absolute;
-      top: 10px; 
-      right: 10px;
+      top: 10px; right: 10px;
       font-size: 28px;
       font-weight: bold;
       color: #000;
@@ -180,49 +150,25 @@
 </head>
 <body>
 
-  <h1>Your Wedding Invite 2.4</h1>
+  <!-- No headline on this page -->
 
-  <!-- The flipping card -->
   <div class="card">
     <div class="inner" id="inviteCard">
-      <!-- Clicking front/back opens the same modal but with different images -->
-      <div 
-        class="front" 
-        onclick="openLightbox('https://static.wixstatic.com/media/c9feeb_d3c0901d5d294dc2b854934892cf85ef~mv2.png')"
-      ></div>
-      <div 
-        class="back" 
-        onclick="openLightbox('https://static.wixstatic.com/media/c9feeb_68923cf559d74a2283bcd7c440087155~mv2.png')"
-      ></div>
+      <div class="front" onclick="openLightbox('https://static.wixstatic.com/media/c9feeb_d3c0901d5d294dc2b854934892cf85ef~mv2.png')"></div>
+      <div class="back" onclick="openLightbox('https://static.wixstatic.com/media/c9feeb_68923cf559d74a2283bcd7c440087155~mv2.png')"></div>
     </div>
   </div>
 
-  <!-- Button is close to the card -->
   <div class="flip-container">
     <button onclick="flipCard()">Flip Card</button>
   </div>
 
   <div class="info">
-    <p>
-      <a href="https://www.zola.com/wedding/yoavandcharlotte" target="_blank">
-        RSVP Here
-      </a>
-    </p>
-    <p>
-      Email:
-      <a href="mailto:yourEmail@example.com">
-        yourEmail@example.com
-      </a>
-    </p>
-    <p>
-      Location:
-      <a href="https://maps.google.com/?q=Your+Venue+Address" target="_blank">
-        Your Venue Address
-      </a>
-    </p>
+    <p><a href="https://www.zola.com/wedding/chayo" target="_blank">RSVP Here</a></p>
+    <p>Email: <a href="mailto:yoavetcharlotte@gmail.com">yoavetcharlotte@gmail.com</a></p>
+    <p>Location: <a href="https://g.co/kgs/o24AyPq" target="_blank">Ferme de Gy</a></p>
   </div>
 
-  <!-- Modal Overlay -->
   <div class="lightbox" id="lightbox">
     <div class="lightbox-content">
       <button class="close-btn" onclick="closeLightbox()">&times;</button>
@@ -230,11 +176,9 @@
     </div>
   </div>
 
-  <!-- Canvas Confetti CDN -->
+  <!-- Confetti on page load -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
   <script>
-    // Confetti on page load
     window.onload = function() {
       confetti({
         particleCount: 100,
@@ -242,18 +186,13 @@
         origin: { y: 0.6 }
       });
     };
-
     function flipCard() {
       document.getElementById('inviteCard').classList.toggle('flipped');
     }
-
     function openLightbox(imageUrl) {
-      // Set the large image's src
       document.getElementById('lightboxImage').src = imageUrl;
-      // Show the overlay
       document.getElementById('lightbox').classList.add('active');
     }
-
     function closeLightbox() {
       document.getElementById('lightbox').classList.remove('active');
     }
