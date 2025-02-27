@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>You're Invited</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
   <style>
     body {
       margin: 0; 
@@ -20,12 +19,13 @@
 
     .letter-container {
       margin: 40px auto 0;
-      width: 300px; 
-      height: 200px; 
+      width: 300px; /* Adjust as desired */
+      height: 200px; /* Keeps the space consistent */
       display: flex;
       justify-content: center;
       align-items: center;
     }
+
     #myLetter {
       width: 100%;
       max-height: 100%;
@@ -33,7 +33,6 @@
       display: block;
     }
 
-    /* Button styling */
     #openButton {
       margin: 20px auto 0;
       padding: 16px 32px;
@@ -48,36 +47,6 @@
     #openButton:hover {
       background: #333;
     }
-
-    /* Hidden by default; 
-       This appears once the letter is "opening." */
-    #openingMessage {
-      display: none;
-      margin-top: 20px;
-    }
-    #openingText {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    /* Loading bar container */
-    .progress-bar {
-      width: 300px;
-      height: 12px; /* Slightly taller */
-      background: #ddd;
-      border-radius: 4px;
-      margin: 0 auto;
-      overflow: hidden;
-      position: relative;
-      border: 1px solid #ccc; /* Outline so it’s clearly visible */
-    }
-    /* The bar that fills up */
-    .progress-fill {
-      background: #ff5722; /* A bright orange fill */
-      height: 100%;
-      width: 0;
-      transition: width 4s linear;
-    }
   </style>
 </head>
 <body>
@@ -85,31 +54,23 @@
   <h1>You're invited</h1>
 
   <div class="letter-container" id="letterContainer">
+    <!-- Use the new envelope image -->
     <img 
       id="myLetter" 
-      src="https://png.pngtree.com/png-clipart/20220502/original/pngtree-love-letter-cartoon-png-image_7649405.png"
+      src="https://static.wixstatic.com/media/c9feeb_6072a6fe19014a64ac3f5df4784b8e48~mv2.png"
       alt="Letter"
     />
   </div>
 
-  <!-- Button to open letter initially -->
-  <button id="openButton" onclick="showGifAndRedirect()">Open the letter</button>
-
-  <!-- Message + progress bar -->
-  <div id="openingMessage">
-    <div id="openingText">Opening your letter...</div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-  </div>
+  <button id="openButton" onclick="openLetter()">Open the letter</button>
 
   <script>
-    function showGifAndRedirect() {
-      // Hide the original button
+    function openLetter() {
+      // Change the button text to show progress
       const btn = document.getElementById('openButton');
-      btn.style.display = 'none';
+      btn.textContent = "Opening...";
 
-      // Optionally replace the letter with a GIF
+      // Replace the envelope image with a fun GIF
       document.getElementById('letterContainer').innerHTML = `
         <img
           src="https://media1.tenor.com/m/Y9ednQWGwX8AAAAC/friends-friends-tv.gif"
@@ -118,18 +79,10 @@
         />
       `;
 
-      // Show the "Opening your letter..." message + loading bar
-      document.getElementById('openingMessage').style.display = 'block';
-
-      // Let the element render, then animate the fill
-      setTimeout(() => {
-        document.getElementById('progressFill').style.width = '100%';
-      }, 50);
-
-      // After 4 seconds, redirect to the invite page
+      // After 4 seconds, go to the invite page
       setTimeout(() => {
         window.location.href = 'invite.html';
-      }, 4050);
+      }, 4000);
     }
   </script>
 </body>
