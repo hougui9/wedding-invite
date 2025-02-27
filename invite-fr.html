@@ -2,45 +2,31 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Votre Invitation de Mariage 2.3</title>
-  <!-- Autoriser le pinch-zoom sur mobile -->
+  <title>Votre Invitation de Mariage</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
   <style>
     body {
-      margin: 0; 
+      margin: 0;
       padding: 0;
       text-align: center;
       font-family: Arial, sans-serif;
       background: #fafafa;
-      overscroll-behavior: none; /* Évite le bounce sur iOS si souhaité */
+      overscroll-behavior: none;
     }
-    h1 {
-      margin-top: 40px;
-    }
-
-    /* Animation de fade-in */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* ---- Carte à retourner ---- */
+    /* Pas de titre pour maximiser l'espace de l'image */
     .card {
       width: 90vw;
       max-width: 400px;
-      aspect-ratio: 2 / 3; /* Ajustez selon les images */
-      margin: 20px auto;
+      aspect-ratio: 2 / 3;
+      margin: 20px auto 0;
       perspective: 1000px;
       background: #fff;
       position: relative;
-      animation: fadeInUp 1.2s ease forwards; /* Fade-in au chargement */
+      animation: fadeInUp 1.2s ease forwards;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .inner {
       width: 100%;
@@ -51,17 +37,16 @@
     }
     .front, .back {
       position: absolute;
-      top: 0; 
+      top: 0;
       left: 0;
-      width: 100%; 
+      width: 100%;
       height: 100%;
       backface-visibility: hidden;
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
-      cursor: zoom-in; /* Indique qu'on peut cliquer pour zoomer */
+      cursor: zoom-in;
     }
-    /* Remplacez par vos vraies images */
     .front {
       background-image: url('https://static.wixstatic.com/media/c9feeb_d3c0901d5d294dc2b854934892cf85ef~mv2.png');
     }
@@ -72,21 +57,22 @@
     .flipped {
       transform: rotateY(180deg);
     }
-
-    /* Boutons & info */
-    button {
-      margin-top: 20px;
-      padding: 12px 24px;
+    /* Bouton de flip placé très près de la carte, style raffiné */
+    .flip-container {
+      margin: 5px auto 0;
+    }
+    .flip-container button {
+      padding: 10px 20px;
       font-size: 16px;
       font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      background: #000;
-      color: #fff;
+      border: 2px solid #000;
+      border-radius: 6px;
+      background: #fff;
+      color: #000;
       cursor: pointer;
     }
-    button:hover {
-      background: #333;
+    .flip-container button:hover {
+      background: #f2f2f2;
     }
     .info {
       margin: 20px auto;
@@ -103,34 +89,30 @@
     a:hover {
       text-decoration: underline;
     }
-
-    /* ---- Lightbox / Modal ---- */
     .lightbox {
-      display: none; /* Caché par défaut */
+      display: none;
       position: fixed;
       z-index: 9999;
-      top: 0; 
+      top: 0;
       left: 0;
-      width: 100vw; 
+      width: 100vw;
       height: 100vh;
       background: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
       padding: 0;
       box-sizing: border-box;
-      overscroll-behavior: contain; /* Le scrolling reste dans le modal sur iOS */
+      overscroll-behavior: contain;
     }
     .lightbox.active {
-      display: flex; /* Affiche l’overlay */
+      display: flex;
     }
-
-    /* Conteneur scrollable pour l'image */
     .lightbox-content {
       position: relative;
       width: 100vw;
       height: 100vh;
       overflow: auto;
-      -webkit-overflow-scrolling: touch; /* Scrolling fluide sur iOS */
+      -webkit-overflow-scrolling: touch;
       background: #fff;
       padding: 20px;
       box-sizing: border-box;
@@ -138,10 +120,6 @@
       justify-content: center;
       align-items: center;
     }
-    /*
-      Sur desktop (≥768px), on impose une image large (1200px) pour scroller.
-      Sur mobile, on utilise 100% pour autoriser le pinch-zoom.
-    */
     .lightbox-content img {
       display: block;
       margin: 0 auto;
@@ -157,11 +135,9 @@
         width: 100%;
       }
     }
-
-    /* Bouton de fermeture (X) */
     .close-btn {
       position: absolute;
-      top: 10px; 
+      top: 10px;
       right: 10px;
       font-size: 28px;
       font-weight: bold;
@@ -178,58 +154,54 @@
 </head>
 <body>
 
-  <h1>Votre Invitation de Mariage 2.3</h1>
-  
-  <!-- La carte à retourner -->
+  <!-- Pas de titre pour laisser l'image occuper plus d'espace -->
   <div class="card">
     <div class="inner" id="inviteCard">
-      <!-- Cliquer sur la face avant ou arrière pour ouvrir le lightbox -->
       <div 
         class="front" 
-        onclick="openLightbox('https://static.wixstatic.com/media/c9feeb_d3c0901d5d294dc2b854934892cf85ef~mv2.png')"
+        onclick="ouvrirLightbox('https://static.wixstatic.com/media/c9feeb_d3c0901d5d294dc2b854934892cf85ef~mv2.png')"
       ></div>
       <div 
         class="back" 
-        onclick="openLightbox('https://static.wixstatic.com/media/c9feeb_68923cf559d74a2283bcd7c440087155~mv2.png')"
+        onclick="ouvrirLightbox('https://static.wixstatic.com/media/c9feeb_68923cf559d74a2283bcd7c440087155~mv2.png')"
       ></div>
     </div>
   </div>
 
-  <button onclick="flipCard()">Retourner la carte</button>
+  <div class="flip-container">
+    <button onclick="retournerCarte()">Flip Card</button>
+  </div>
 
   <div class="info">
     <p>
-      <a href="https://www.zola.com/wedding/yoavandcharlotte" target="_blank">
-        Répondre ici
+      <a href="https://www.zola.com/wedding/chayo" target="_blank">
+        RSVP ici
       </a>
     </p>
     <p>
-      Courriel :
-      <a href="mailto:yourEmail@example.com">
-        yourEmail@example.com
+      Courriel : 
+      <a href="mailto:yoavetcharlotte@gmail.com">
+        yoavetcharlotte@gmail.com
       </a>
     </p>
     <p>
-      Lieu :
-      <a href="https://maps.google.com/?q=Your+Venue+Address" target="_blank">
-        Votre Adresse
+      Lieu : 
+      <a href="https://g.co/kgs/o24AyPq" target="_blank">
+        Ferme de Gy
       </a>
     </p>
   </div>
 
-  <!-- Overlay Lightbox -->
   <div class="lightbox" id="lightbox">
     <div class="lightbox-content">
-      <button class="close-btn" onclick="closeLightbox()">&times;</button>
+      <button class="close-btn" onclick="fermerLightbox()">&times;</button>
       <img id="lightboxImage" src="#" alt="Face de l'Invitation" />
     </div>
   </div>
 
-  <!-- CDN canvas-confetti -->
+  <!-- Confettis au chargement -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
   <script>
-    // Confettis au chargement
     window.onload = function() {
       confetti({
         particleCount: 100,
@@ -237,17 +209,14 @@
         origin: { y: 0.6 }
       });
     };
-
-    function flipCard() {
+    function retournerCarte() {
       document.getElementById('inviteCard').classList.toggle('flipped');
     }
-
-    function openLightbox(imageUrl) {
+    function ouvrirLightbox(imageUrl) {
       document.getElementById('lightboxImage').src = imageUrl;
       document.getElementById('lightbox').classList.add('active');
     }
-
-    function closeLightbox() {
+    function fermerLightbox() {
       document.getElementById('lightbox').classList.remove('active');
     }
   </script>
