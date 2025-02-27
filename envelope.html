@@ -8,7 +8,7 @@
   <style>
     body {
       margin: 0; 
-      padding: 0;
+      padding: 0; 
       font-family: sans-serif;
       text-align: center;
       background: #fafafa;
@@ -20,13 +20,12 @@
 
     .letter-container {
       margin: 40px auto 0;
-      width: 300px; /* Adjust as desired */
+      width: 300px; 
       height: 200px; 
       display: flex;
       justify-content: center;
       align-items: center;
     }
-
     #myLetter {
       width: 100%;
       max-height: 100%;
@@ -34,6 +33,7 @@
       display: block;
     }
 
+    /* Button styling */
     #openButton {
       margin: 20px auto 0;
       padding: 16px 32px;
@@ -52,7 +52,9 @@
     /* Progress/Loading section (hidden by default) */
     #openingMessage {
       display: none;
-      margin-top: 20px;
+      margin: 20px auto;
+      max-width: 300px;
+      text-align: center;
     }
     #openingText {
       font-size: 18px;
@@ -60,11 +62,10 @@
     }
 
     .progress-bar {
-      width: 300px;
+      width: 100%;
       height: 12px;
       background: #ddd;
       border-radius: 4px;
-      margin: 0 auto;
       overflow: hidden;
       border: 1px solid #ccc;
       position: relative;
@@ -82,7 +83,6 @@
   <h1>You're invited</h1>
 
   <div class="letter-container" id="letterContainer">
-    <!-- Updated envelope image -->
     <img 
       id="myLetter" 
       src="https://static.wixstatic.com/media/c9feeb_6072a6fe19014a64ac3f5df4784b8e48~mv2.png"
@@ -90,11 +90,12 @@
     />
   </div>
 
-  <button id="openButton" onclick="openLetter()">Open the letter</button>
+  <!-- Button appears first -->
+  <button id="openButton" onclick="showGifAndRedirect()">Open the letter</button>
 
-  <!-- This shows the "Opening..." text + progress bar -->
+  <!-- Then the progress/loading section is below the button -->
   <div id="openingMessage">
-    <div id="openingText">Opening the letter...</div>
+    <div id="openingText">Opening your letter...</div>
     <div class="progress-bar">
       <div class="progress-fill" id="progressFill"></div>
     </div>
@@ -104,19 +105,19 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
-    function openLetter() {
+    function showGifAndRedirect() {
       // Hide the original button
       const btn = document.getElementById('openButton');
       btn.style.display = 'none';
 
-      // Trigger a burst of confetti
+      // Trigger confetti
       confetti({
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 }
       });
 
-      // Swap out the envelope image with a fun GIF
+      // Replace envelope with a GIF
       document.getElementById('letterContainer').innerHTML = `
         <img
           src="https://media1.tenor.com/m/Y9ednQWGwX8AAAAC/friends-friends-tv.gif"
@@ -125,10 +126,10 @@
         />
       `;
 
-      // Show the progress bar + text
+      // Show the progress section (below the button area)
       document.getElementById('openingMessage').style.display = 'block';
 
-      // Force the browser to compute layout, then animate
+      // Animate the progress fill after a brief delay
       setTimeout(() => {
         document.getElementById('progressFill').style.width = '100%';
       }, 50);
