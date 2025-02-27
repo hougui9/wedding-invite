@@ -4,24 +4,21 @@
   <meta charset="UTF-8" />
   <title>You're Invited</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
   <style>
     body {
-      margin: 0; 
-      padding: 0; 
+      margin: 0;
+      padding: 0;
       font-family: sans-serif;
       text-align: center;
       background: #fafafa;
     }
-
     h1 {
       margin-top: 60px;
     }
-
     .letter-container {
       margin: 40px auto 0;
-      width: 300px; 
-      height: 200px; 
+      width: 300px;
+      height: 200px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -32,7 +29,6 @@
       object-fit: contain;
       display: block;
     }
-
     /* Button styling */
     #openButton {
       margin: 20px auto 0;
@@ -48,8 +44,7 @@
     #openButton:hover {
       background: #333;
     }
-
-    /* Progress/Loading section (hidden by default) */
+    /* Progress section (hidden initially) */
     #openingMessage {
       display: none;
       margin: 20px auto;
@@ -60,7 +55,6 @@
       font-size: 18px;
       margin-bottom: 10px;
     }
-
     .progress-bar {
       width: 100%;
       height: 12px;
@@ -68,10 +62,9 @@
       border-radius: 4px;
       overflow: hidden;
       border: 1px solid #ccc;
-      position: relative;
     }
     .progress-fill {
-      background: #ff5722; /* Orange fill */
+      background: #ff5722;
       height: 100%;
       width: 0;
       transition: width 4s linear;
@@ -83,7 +76,6 @@
   <h1>You're invited</h1>
 
   <div class="letter-container" id="letterContainer">
-    <!-- Envelope image -->
     <img 
       id="myLetter" 
       src="https://static.wixstatic.com/media/c9feeb_6072a6fe19014a64ac3f5df4784b8e48~mv2.png"
@@ -91,10 +83,8 @@
     />
   </div>
 
-  <!-- Button that triggers progress bar & redirect -->
   <button id="openButton" onclick="showGifAndRedirect()">Open the letter</button>
 
-  <!-- Progress bar area -->
   <div id="openingMessage">
     <div id="openingText">Opening your letter...</div>
     <div class="progress-bar">
@@ -104,11 +94,8 @@
 
   <script>
     function showGifAndRedirect() {
-      // Hide the original button
-      const btn = document.getElementById('openButton');
-      btn.style.display = 'none';
-
-      // Replace envelope with a GIF
+      document.getElementById('openButton').style.display = 'none';
+      // Swap the envelope image with a GIF
       document.getElementById('letterContainer').innerHTML = `
         <img
           src="https://media1.tenor.com/m/Y9ednQWGwX8AAAAC/friends-friends-tv.gif"
@@ -116,16 +103,10 @@
           style="width:100%; max-height:100%; object-fit:contain;"
         />
       `;
-
-      // Show the progress bar + text
       document.getElementById('openingMessage').style.display = 'block';
-
-      // Animate the progress fill after a brief delay
       setTimeout(() => {
         document.getElementById('progressFill').style.width = '100%';
       }, 50);
-
-      // After 4 seconds, redirect to the invite page
       setTimeout(() => {
         window.location.href = 'invite.html';
       }, 4050);
