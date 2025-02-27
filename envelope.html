@@ -83,6 +83,7 @@
   <h1>You're invited</h1>
 
   <div class="letter-container" id="letterContainer">
+    <!-- Envelope image -->
     <img 
       id="myLetter" 
       src="https://static.wixstatic.com/media/c9feeb_6072a6fe19014a64ac3f5df4784b8e48~mv2.png"
@@ -90,10 +91,10 @@
     />
   </div>
 
-  <!-- Button appears first -->
+  <!-- Button that triggers progress bar & redirect -->
   <button id="openButton" onclick="showGifAndRedirect()">Open the letter</button>
 
-  <!-- Then the progress/loading section is below the button -->
+  <!-- Progress bar area -->
   <div id="openingMessage">
     <div id="openingText">Opening your letter...</div>
     <div class="progress-bar">
@@ -101,21 +102,11 @@
     </div>
   </div>
 
-  <!-- Confetti script from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
   <script>
     function showGifAndRedirect() {
       // Hide the original button
       const btn = document.getElementById('openButton');
       btn.style.display = 'none';
-
-      // Trigger confetti
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
 
       // Replace envelope with a GIF
       document.getElementById('letterContainer').innerHTML = `
@@ -126,7 +117,7 @@
         />
       `;
 
-      // Show the progress section (below the button area)
+      // Show the progress bar + text
       document.getElementById('openingMessage').style.display = 'block';
 
       // Animate the progress fill after a brief delay
